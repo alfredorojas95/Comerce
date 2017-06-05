@@ -1,0 +1,13 @@
+
+            
+            <div id="indexLeftColumn">
+                <p>Texto izquierda</p>
+            </div>
+            <div id="indexRightColumn">
+                <div class="categoryBox">frutas</div>
+                <div class="categoryBox">verduras</div>
+                <div class="categoryBox">Lacteos</div>
+                <div class="categoryBox">carne</div>
+            </div>
+            
+          
