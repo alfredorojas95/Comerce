@@ -12,7 +12,7 @@ public class TecUsuario {
 	public ArrayList<TecOrden> tecOrden = new ArrayList<TecOrden>();
 
 	public TecUsuario() {
-		throw new UnsupportedOperationException();
+		
 	}
 
 	public int getCliId() {

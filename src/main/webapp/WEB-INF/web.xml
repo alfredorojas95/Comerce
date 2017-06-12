@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
-        <context-param>
+    <context-param>
         <param-name>jdbcPassword</param-name>
-        <param-value></param-value>
+        <param-value/>
     </context-param>
     <context-param>
         <param-name>jdbcUser</param-name>
@@ -24,6 +24,14 @@
         <servlet-name>ControladorEComerce</servlet-name>
         <servlet-class>ecomerce.controlador.ControladorEComerce</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ProductoServlet</servlet-name>
+        <servlet-class>ecomerce.controlador.ProductoServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UsuarioServlet</servlet-name>
+        <servlet-class>ecomerce.controlador.UsuarioServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ControladorEComerce</servlet-name>
         <url-pattern>/categorias</url-pattern>
@@ -32,8 +40,24 @@
         <url-pattern>/eliminarCategoria</url-pattern>
         <url-pattern>/editarFormCategoria</url-pattern>
         <url-pattern>/actualizarCategoria</url-pattern>
-        
-
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProductoServlet</servlet-name>
+        <url-pattern>/ProductoServlet</url-pattern>
+        <url-pattern>/productos</url-pattern>
+        <url-pattern>/nuevoProducto</url-pattern>
+        <url-pattern>/guardarProducto</url-pattern>
+        <url-pattern>/eliminarFormProducto</url-pattern>
+        <url-pattern>/editarFormProducto</url-pattern>
+        <url-pattern>/actualizarFormProducto</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UsuarioServlet</servlet-name>
+        <url-pattern>/usuarios</url-pattern>
+        <url-pattern>/guardarUsuario</url-pattern>
+        <url-pattern>/editarUsuario</url-pattern>
+        <url-pattern>/eliminarUsuario</url-pattern>
+        <url-pattern>/actualizarUsuario</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

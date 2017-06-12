@@ -5,6 +5,9 @@
                 <ul>
                     <li><a href="categorias">Categoria</a></li>
                     <li><a href="nuevaCategoria">Nueva Categoria</a></li>
+                    <li><a href="productos">Lista Productos</a></li>
+                    <li><a href="nuevoProducto">Nuevo Producto</a></li>
+                    <li><a href="usuarios">Usuarios</a></li>
 
                 </ul>
             </div>

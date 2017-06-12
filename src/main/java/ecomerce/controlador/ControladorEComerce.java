@@ -88,7 +88,6 @@ public class ControladorEComerce extends HttpServlet {
                 case "/actualizarCategoria":
                     this.actualizarCategoria(request, response);
                     break;
-
             }
         } catch (SQLException e) {
             throw new ServletException(e);
