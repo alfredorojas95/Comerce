@@ -53,8 +53,8 @@ public class TecOrdenImp implements TecOrdenDao{
                     orden = new TecOrden();
                     orden.setOrdId(rs.getInt("ord_id"));
                     
-                    TecUsuarioImp usuImp = new TecUsuarioImp();
                     int id = Integer.parseInt(rs.getString("cli_id"));
+                    TecUsuarioImp usuImp = new TecUsuarioImp();
                     TecUsuario usu = usuImp.buscar(id);
                     orden.setCli(usu);
                     orden.setOrdFcreacion(rs.getString("ord_fcreacion"));

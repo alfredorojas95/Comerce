@@ -153,6 +153,7 @@ public class OrdenServlet extends HttpServlet {
         TecOrdenDao ordenDao = ControladorEComerce.fabrica.getOrdenDao();
         int id = Integer.parseInt(request.getParameter("id"));
         TecOrden orden = ordenDao.buscar(id);
+        System.out.println(orden.getOrdFcreacion());
         request.setAttribute("orden", orden);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/orden_form_edit.jsp");
         dispatcher.forward(request, response);

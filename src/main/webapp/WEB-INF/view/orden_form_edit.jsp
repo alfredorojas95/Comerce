@@ -9,7 +9,7 @@
         Cliente:<br>
         <select name="cliente">
             <c:forEach var="i" items="${listadoUsuario}">
-                <option value="${orden.cli.cliNombre}" name="cliente_orden">${i.cliNombre}</option>
+                <option value="${orden.cli.cliNombre}" name="cliente_orden">${orden.cli.cliNombre}</option>
             </c:forEach>
             
         </select><br>
