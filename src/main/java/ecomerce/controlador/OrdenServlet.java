@@ -51,7 +51,7 @@ public class OrdenServlet extends HttpServlet {
         String userPath = request.getServletPath();
         try {
             switch (userPath) {
-                case "/productoOrden":
+                case "/ordenes":
                     this.listarOrdenes(request, response);
                     break;
 
@@ -59,10 +59,10 @@ public class OrdenServlet extends HttpServlet {
                     this.mostrarFormOrden(request, response);
                     break;
                     
-                case "/editarProductoOrden":
+                case "/editarFormOrden":
                     this.borarOrden(request, response);
                 break;
-                case "/eliminarProductoOrden":
+                case "/eliminarFormOrden":
                     this.borarOrden(request, response);
                 break;
             }
