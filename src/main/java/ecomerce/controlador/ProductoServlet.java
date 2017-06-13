@@ -140,7 +140,6 @@ public class ProductoServlet extends HttpServlet {
         TecProductoDao productoDao = ControladorEComerce.fabrica.getProductoDao();
         productoDao.guardar(prod);
         response.sendRedirect("index.jsp");
-        System.out.println("save producto");
     }
 
     private void eliminarProducto(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {

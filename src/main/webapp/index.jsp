@@ -9,8 +9,12 @@
                     <li><a href="nuevoProducto">Nuevo Producto</a></li>
                     <li><a href="usuarios">Usuarios</a></li>
                     <li><a href="nuevoUsuario">Nuevo Usuario</a></li>
+                    <li><a href="ordenes">Listado Ordenenes</a></li>
+                    <li><a href="nuevaOrden">Nueva Orden</a></li>
+                    <li><a href="productoOrden">Producto Orden</a></li>
+                    <li><a href="nuevoProductoOrden">Agregar producto Orden</a></li>
                     
-
+                   
                 </ul>
             </div>
             <div id="indexRightColumn">

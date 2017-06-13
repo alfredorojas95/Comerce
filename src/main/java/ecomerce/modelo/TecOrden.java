@@ -49,6 +49,10 @@ public class TecOrden {
     public TecUsuario getCli() {
         return cli;
     }
+    
+     public int getIdCli() {
+        return cli.getCliId();
+    }
 
     public void setCli(TecUsuario cli) {
         this.cli = cli;
