@@ -1,9 +1,11 @@
 package ecomerce.persistencia.factory;
 
 import ecomerce.persistencia.dao.TecCategoriaDao;
+import ecomerce.persistencia.dao.TecOrdenDao;
 import ecomerce.persistencia.dao.TecProductoDao;
 import ecomerce.persistencia.dao.TecUsuarioDao;
 import ecomerce.persistencia.impl.TecCategoriaImpl;
+import ecomerce.persistencia.impl.TecOrdenImp;
 import ecomerce.persistencia.impl.TecProductoImpl;
 import ecomerce.persistencia.impl.TecUsuarioImp;
 import javax.servlet.ServletContext;
@@ -36,5 +38,9 @@ public abstract class DAOFactory {
     
     public TecUsuarioDao getUsuarioDao() {
         return new TecUsuarioImp(); 
+    }
+    
+    public TecOrdenDao getOrdenDao() {
+        return new TecOrdenImp(); 
     }
 }

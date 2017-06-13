@@ -32,6 +32,10 @@
         <servlet-name>UsuarioServlet</servlet-name>
         <servlet-class>ecomerce.controlador.UsuarioServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>OrdenServlet</servlet-name>
+        <servlet-class>ecomerce.controlador.OrdenServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ControladorEComerce</servlet-name>
         <url-pattern>/categorias</url-pattern>
@@ -54,10 +58,20 @@
     <servlet-mapping>
         <servlet-name>UsuarioServlet</servlet-name>
         <url-pattern>/usuarios</url-pattern>
+        <url-pattern>/nuevoUsuario</url-pattern>
         <url-pattern>/guardarUsuario</url-pattern>
         <url-pattern>/editarUsuario</url-pattern>
         <url-pattern>/eliminarUsuario</url-pattern>
         <url-pattern>/actualizarUsuario</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>OrdenServlet</servlet-name>
+        <url-pattern>/ordenes</url-pattern>
+        <url-pattern>/nuevaOrden</url-pattern>
+        <url-pattern>/guardarOrden</url-pattern>
+        <url-pattern>/editarOrden</url-pattern>
+        <url-pattern>/actualizarOrden</url-pattern>
+        <url-pattern>/eliminarOrden</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -8,6 +8,8 @@
                     <li><a href="productos">Lista Productos</a></li>
                     <li><a href="nuevoProducto">Nuevo Producto</a></li>
                     <li><a href="usuarios">Usuarios</a></li>
+                    <li><a href="nuevoUsuario">Nuevo Usuario</a></li>
+                    
 
                 </ul>
             </div>

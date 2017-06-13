@@ -15,18 +15,18 @@
             </tr>
         </thead>
         <tbody>
-            <c:forEach var="i" items="${listadoProducto}">
+            <c:forEach var="i" items="${listadoOrdenes}">
                 <tr>
-                    <td>${i.prodId}</td>
-                    <td>${i.proNombre}</td>
-                    <td>${i.cat.catNombre}</td>
-                    <td>${i.proDescripcion}</td>
-                    <td>${i.prPrecio}</td>
-                    <td>${i.proUltimaUctualizacion}</td>
+                    <td>${i.ordId}</td>
+                    <td>${i.ordFcreacion}</td>
+                    <td>${i.cat.ordFumConfirmacion}</td>
+                    <td>${i.ordFumConfirmacion}</td>
+                    <td>${i.ordPrecioTotal}</td>
+                    <td>${i.cli.cliNombre}</td>
                     
                     <td>
-                        <a href="editarFormProducto?id=${i.prodId}">Editar</a>
-                        <a href="eliminarFormProducto?id=${i.prodId}">Eliminar</a>
+                        <a href="editarFormOrden?id=${i.ordId}">Editar</a>
+                        <a href="eliminarFormOrden?id=${i.ordId}">Eliminar</a>
                     </td>
                 </tr>
             </c:forEach>
@@ -34,4 +34,3 @@
         
     </table>
 </div>
-

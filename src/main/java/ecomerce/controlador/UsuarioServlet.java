@@ -52,7 +52,13 @@ public class UsuarioServlet extends HttpServlet {
                     System.out.println("usuarios");
                     this.listarUsuarios(request, response);
                     break;
-
+                case "/nuevoUsuario":
+                    this.mostrarFormUsuario(request, response);
+                    break;
+                    
+                case "/eliminarUsuario":
+                    this.eliminarUsuario(request, response);
+                break;
             }
         } catch (SQLException e) {
             throw new ServletException(e);
@@ -70,7 +76,16 @@ public class UsuarioServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        String userPath = request.getServletPath();
+        try {
+            switch (userPath) {
+                case "/guardarUsuario":
+                    this.guardarUsuario(request, response);
+                    break;
+            }
+        } catch (SQLException e) {
+            throw new ServletException(e);
+        }
     }
 
     /**
@@ -90,6 +105,31 @@ public class UsuarioServlet extends HttpServlet {
         request.setAttribute("listadoUsuario", listadoUsuario);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/usuarios.jsp");
         dispatcher.forward(request, response);
+    }
+
+    private void mostrarFormUsuario(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException, SQLException {
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/usuario_form.jsp");
+        dispatcher.forward(request, response);
+    }
+
+    private void guardarUsuario(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+        TecUsuario usuario = new TecUsuario();
+        usuario.setCliNombre(request.getParameter("nombre_usuario"));
+        usuario.setCliApellido(request.getParameter("apellido_usuario"));
+        usuario.setCliTelefono(request.getParameter("telefono_usuario"));
+        usuario.setCliDireccion(request.getParameter("direccion_usuario"));
+        usuario.setCliComuna(request.getParameter("comuna_usuario"));
+        
+        TecUsuarioDao usuDao = ControladorEComerce.fabrica.getUsuarioDao();
+        usuDao.guardar(usuario);
+        response.sendRedirect("index.jsp");
+    }
+
+    private void eliminarUsuario(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException, SQLException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        TecUsuarioDao usuarioDao = ControladorEComerce.fabrica.getUsuarioDao();
+        usuarioDao.borrar(id);
+        response.sendRedirect("/IComerce/usuarios");
     }
 
 }

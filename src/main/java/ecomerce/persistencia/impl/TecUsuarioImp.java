@@ -29,8 +29,37 @@ public class TecUsuarioImp implements TecUsuarioDao {
     }
 
     @Override
-    public TecUsuario buscar(int idCat) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public TecUsuario buscar(int idUsu) {
+        TecUsuario usuario = null;
+        ResultSet rs;
+        String sql = "SELECT * FROM tec_usuario WHERE cli_id = ?";
+
+        try {
+
+            PreparedStatement pstm = this.conn.prepareStatement(sql);
+            pstm.setInt(1, idUsu);
+            rs = pstm.executeQuery();
+
+            if (!rs.next()) {
+                Logger.getLogger(TecUsuarioImp.class.getName()).log(Level.SEVERE, "NO HAY DATOS");
+
+            } else {
+                do {
+                    usuario = new TecUsuario();
+                    usuario.setCliId(rs.getInt("cli_id"));
+                    usuario.setCliNombre(rs.getString("cli_nombre"));
+                    usuario.setCliApellido(rs.getString("cli_apellido"));
+                    usuario.setCliTelefono(rs.getString("cli_telefono"));
+                    usuario.setCliDireccion(rs.getString("cli_direccion"));
+                    usuario.setCliComuna(rs.getString("cli_comuna"));
+
+                } while (rs.next());
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(TecUsuarioImp.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return usuario;
     }
 
     @Override
@@ -69,8 +98,24 @@ public class TecUsuarioImp implements TecUsuarioDao {
     }
 
     @Override
-    public boolean guardar(TecUsuario prod) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean guardar(TecUsuario usu) {
+        boolean resultado = false;
+        String sql = "INSERT INTO tec_usuario(cli_id, cli_nombre, cli_apellido, cli_telefono, cli_direccion, cli_comuna) values(?,?,?,?,?,?)";
+        try {
+            PreparedStatement pstm = this.conn.prepareStatement(sql);
+            pstm.setInt(1, usu.getCliId());
+            pstm.setString(2, usu.getCliNombre());
+            pstm.setString(3, usu.getCliApellido());
+            pstm.setString(4, usu.getCliTelefono());
+            pstm.setString(5, usu.getCliDireccion());
+            pstm.setString(6, usu.getCliComuna());
+            pstm.executeUpdate();
+            resultado = true;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(TecUsuarioImp.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return resultado;
     }
 
     @Override
@@ -80,7 +125,21 @@ public class TecUsuarioImp implements TecUsuarioDao {
 
     @Override
     public boolean borrar(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        boolean result = false;
+        String sql = "DELETE FROM tec_usuario WHERE cli_id = ?";
+
+        try {
+            PreparedStatement pstm = this.conn.prepareStatement(sql);
+            pstm.setInt(1, id);
+            int filasAfectadas = pstm.executeUpdate();
+            result = (filasAfectadas != 0);
+            Logger.getLogger(TecUsuarioImp.class.getName()).log(Level.SEVERE, "BORRA {0}", result);
+
+        } catch (SQLException ex) {
+            Logger.getLogger(TecUsuarioImp.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return result;
     }
 
     /**

@@ -88,7 +88,11 @@ public class TecProductoImpl implements TecProductoDao {
                 do {
                     TecProducto prod = new TecProducto();
                     prod.setProdId(rs.getInt("prod_id"));
-                    prod.setProdId(rs.getInt("cat_id"));
+                    
+                    int id = rs.getInt("cat_id");
+                    TecCategoriaImpl catImp = new TecCategoriaImpl();
+                    TecCategoria cat = catImp.buscar(id);
+                    prod.setCat(cat);
                     prod.setProNombre(rs.getString("pro_nombre"));
                     prod.setProDescripcion(rs.getString("pro_descripcion"));
                     prod.setPrPrecio(rs.getInt("pro_precio"));
@@ -127,7 +131,24 @@ public class TecProductoImpl implements TecProductoDao {
 
     @Override
     public boolean editar(TecProducto prod) {
-        return true;
+        boolean result = false;
+        String sql = "UPDATE tec_producto SET cat_nombre = ? WHERE cat_id = ?";
+        Logger.getLogger(TecProductoImpl.class.getName()).log(Level.SEVERE, "Categroai editar {0}", prod);
+
+        try {
+            PreparedStatement pstm = this.conn.prepareStatement(sql);
+            pstm.setString(1, prod.getProNombre());
+            pstm.setInt(2, prod.getid());
+
+            int filasAfectadas = pstm.executeUpdate();
+            result = (filasAfectadas != 0);
+            Logger.getLogger(TecProductoImpl.class.getName()).log(Level.SEVERE, "Edita {0}", result);
+
+        } catch (SQLException ex) {
+            Logger.getLogger(TecProductoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return result;
     }
 
     @Override
