@@ -58,13 +58,13 @@ public class OrdenServlet extends HttpServlet {
                 case "/nuevaOrden":
                     this.mostrarFormOrden(request, response);
                     break;
-                    
+
                 case "/editarFormOrden":
-                    this.borarOrden(request, response);
-                break;
+                    this.mostrarFormEditar(request, response);
+                    break;
                 case "/eliminarFormOrden":
                     this.borarOrden(request, response);
-                break;
+                    break;
             }
         } catch (SQLException e) {
             throw new ServletException(e);
@@ -86,10 +86,13 @@ public class OrdenServlet extends HttpServlet {
         String userPath = request.getServletPath();
         try {
             switch (userPath) {
-                case "/guardarProductoOrden":
+                case "/guardarOrden":
                     this.guardarOrden(request, response);
                     break;
 
+                case "/actualizarOrden":
+                    this.actualizarOrden(request, response);
+                    break;
             }
         } catch (SQLException e) {
             throw new ServletException(e);
@@ -114,38 +117,49 @@ public class OrdenServlet extends HttpServlet {
         dispatcher.forward(request, response);
     }
 
-    private void mostrarFormOrden(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException, SQLException {
+    private void mostrarFormOrden(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         request.setAttribute("listadoUsuario", listadoUsuario);
 
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/orden_form.jsp");
         dispatcher.forward(request, response);
     }
 
-    private void guardarOrden(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException, SQLException {
+    private void guardarOrden(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         TecOrden orden = new TecOrden();
         orden.setOrdFcreacion(request.getParameter("fecha_creacion_orden"));
-        int cliente = Integer.parseInt(request.getParameter("cliente"));
-        TecUsuario usu = this.listadoUsuario.get(cliente);
+        int idCcliente = Integer.parseInt(request.getParameter("cliente"));
+
+        //error desborde de arreglo
+        TecUsuario usu = this.listadoUsuario.get(idCcliente);
+        System.out.println(usu.getCliNombre());
         orden.setCli(usu);
         orden.setOrdFumConfirmacion(Integer.parseInt(request.getParameter("num_confirmacion_orden")));
         orden.setOrdPrecioTotal(Integer.parseInt(request.getParameter("precio_orden")));
-
 
         TecOrdenDao ordenDao = ControladorEComerce.fabrica.getOrdenDao();
         ordenDao.guardar(orden);
         response.sendRedirect("index.jsp");
     }
 
-    private void editarFormOrden(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException, SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    private void borarOrden(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException, SQLException {
+    private void borarOrden(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         int id = Integer.parseInt(request.getParameter("id"));
         TecOrdenDao ordenDao = ControladorEComerce.fabrica.getOrdenDao();
         ordenDao.borrar(id);
         response.sendRedirect("/IComerce/ordenes");
-       
+
+    }
+
+    private void mostrarFormEditar(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException, SQLException {
+        TecOrdenDao ordenDao = ControladorEComerce.fabrica.getOrdenDao();
+        int id = Integer.parseInt(request.getParameter("id"));
+        TecOrden orden = ordenDao.buscar(id);
+        request.setAttribute("orden", orden);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/orden_form_edit.jsp");
+        dispatcher.forward(request, response);
+    }
+
+    private void actualizarOrden(HttpServletRequest request, HttpServletResponse response) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

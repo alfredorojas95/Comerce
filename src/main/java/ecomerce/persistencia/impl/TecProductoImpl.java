@@ -54,7 +54,11 @@ public class TecProductoImpl implements TecProductoDao {
                 do {
                     prod = new TecProducto();
                     prod.setProdId(rs.getInt("prod_id"));
-                    //prod.setCat(rs.getInt("cat_id"));
+                    
+                    int idCategoria = rs.getInt("cat_id");
+                    TecCategoriaImpl catImp = new TecCategoriaImpl();
+                    TecCategoria cat = catImp.buscar(idCategoria);
+                    prod.setCat(cat);
                     prod.setProNombre(rs.getString("pro_nombre"));
                     prod.setProDescripcion(rs.getString("pro_descripcion"));
                     prod.setPrPrecio(rs.getInt("pro_precio"));

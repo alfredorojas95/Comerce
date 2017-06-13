@@ -52,7 +52,11 @@ public class TecOrdenImp implements TecOrdenDao{
                 do {
                     orden = new TecOrden();
                     orden.setOrdId(rs.getInt("ord_id"));
-                    //orden.setCli(rs.getString("cli_id"));
+                    
+                    TecUsuarioImp usuImp = new TecUsuarioImp();
+                    int id = Integer.parseInt(rs.getString("cli_id"));
+                    TecUsuario usu = usuImp.buscar(id);
+                    orden.setCli(usu);
                     orden.setOrdFcreacion(rs.getString("ord_fcreacion"));
                     orden.setOrdFumConfirmacion(rs.getInt("ord_num_confirmacion"));
                     orden.setOrdPrecioTotal(rs.getInt("ord_precio_total"));
