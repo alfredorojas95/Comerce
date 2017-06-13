@@ -120,7 +120,30 @@ public class TecUsuarioImp implements TecUsuarioDao {
 
     @Override
     public boolean editar(TecUsuario prod) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        boolean result = false;
+        String sql = "UPDATE tec_usuario SET cli_nombre = ?, cli_apellido = ?, cli_telefono = ?"
+                + ", cli_direccion = ?, cli_comuna = ?  WHERE cli_id = ?";
+
+        Logger.getLogger(TecUsuarioImp.class.getName()).log(Level.SEVERE, "Cliente editar {0}", prod);
+
+        try {
+            PreparedStatement pstm = this.conn.prepareStatement(sql);
+            pstm.setString(1, prod.getCliNombre());
+            pstm.setString(2, prod.getCliApellido());
+            pstm.setString(3, prod.getCliTelefono());
+            pstm.setString(4, prod.getCliDireccion());
+            pstm.setString(5, prod.getCliComuna());
+            pstm.setInt(6, prod.getCliId());
+
+            int filasAfectadas = pstm.executeUpdate();
+            result = (filasAfectadas != 0);
+            Logger.getLogger(TecUsuarioImp.class.getName()).log(Level.SEVERE, "Edita {0}", result);
+
+        } catch (SQLException ex) {
+            Logger.getLogger(TecUsuarioImp.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return result;
     }
 
     @Override

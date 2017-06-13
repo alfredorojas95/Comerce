@@ -56,6 +56,10 @@ public class UsuarioServlet extends HttpServlet {
                     this.mostrarFormUsuario(request, response);
                     break;
                     
+                case "/editarUsuario":
+                    this.mostrarFormEditUsuario(request, response);
+                    break;
+                    
                 case "/eliminarUsuario":
                     this.eliminarUsuario(request, response);
                 break;
@@ -82,6 +86,10 @@ public class UsuarioServlet extends HttpServlet {
                 case "/guardarUsuario":
                     this.guardarUsuario(request, response);
                     break;
+                case "/actualizarUsuario":
+                    this.actualizarUsuario(request, response);
+                    break;
+                    
             }
         } catch (SQLException e) {
             throw new ServletException(e);
@@ -129,6 +137,30 @@ public class UsuarioServlet extends HttpServlet {
         int id = Integer.parseInt(request.getParameter("id"));
         TecUsuarioDao usuarioDao = ControladorEComerce.fabrica.getUsuarioDao();
         usuarioDao.borrar(id);
+        response.sendRedirect("/IComerce/usuarios");
+    }
+
+    private void mostrarFormEditUsuario(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException, SQLException {
+        TecUsuarioDao userDao = ControladorEComerce.fabrica.getUsuarioDao();
+        int id = Integer.parseInt(request.getParameter("id"));
+        TecUsuario user = userDao.buscar(id);
+        request.setAttribute("user", user);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/usuario_form_edit.jsp");
+        dispatcher.forward(request, response);
+    }
+
+    private void actualizarUsuario(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException, SQLException {
+        int id = Integer.parseInt(request.getParameter("id_cat"));
+        
+        TecUsuarioDao userDao = ControladorEComerce.fabrica.getUsuarioDao();
+        TecUsuario user = userDao.buscar(id);
+        
+        user.setCliNombre(request.getParameter("nombre_usuario"));
+        user.setCliApellido(request.getParameter("apellido_usuario"));
+        user.setCliTelefono(request.getParameter("telefono_usuario"));
+        user.setCliDireccion(request.getParameter("direccion_usuario"));
+        user.setCliComuna(request.getParameter("comuna_usuario"));
+        userDao.editar(user);
         response.sendRedirect("/IComerce/usuarios");
     }
 

@@ -153,7 +153,6 @@ public class ControladorEComerce extends HttpServlet {
         categoria.setCatNombre(nomCateria);
         categoriaDao.editar(categoria);
 
-        categoria.setCatNombre(request.getParameter("nombre_categoria"));
         response.sendRedirect("/IComerce/categorias");
         
         
