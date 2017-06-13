@@ -29,7 +29,7 @@ public class UsuarioServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        ControladorEComerce.fabrica = DAOFactory.getFactory(TipoBD.MYSQL, this.getServletContext());
+        UsuarioServlet.fabrica = DAOFactory.getFactory(TipoBD.MYSQL, this.getServletContext());
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -108,7 +108,7 @@ public class UsuarioServlet extends HttpServlet {
 
     private void listarUsuarios(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         System.out.println("listar usuarios");
-        TecUsuarioDao usuarioaDao = ControladorEComerce.fabrica.getUsuarioDao();
+        TecUsuarioDao usuarioaDao = UsuarioServlet.fabrica.getUsuarioDao();
         ArrayList<TecUsuario> listadoUsuario = usuarioaDao.listar();
         request.setAttribute("listadoUsuario", listadoUsuario);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/usuarios.jsp");
@@ -128,20 +128,20 @@ public class UsuarioServlet extends HttpServlet {
         usuario.setCliDireccion(request.getParameter("direccion_usuario"));
         usuario.setCliComuna(request.getParameter("comuna_usuario"));
         
-        TecUsuarioDao usuDao = ControladorEComerce.fabrica.getUsuarioDao();
+        TecUsuarioDao usuDao = UsuarioServlet.fabrica.getUsuarioDao();
         usuDao.guardar(usuario);
         response.sendRedirect("index.jsp");
     }
 
     private void eliminarUsuario(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException, SQLException {
         int id = Integer.parseInt(request.getParameter("id"));
-        TecUsuarioDao usuarioDao = ControladorEComerce.fabrica.getUsuarioDao();
+        TecUsuarioDao usuarioDao = UsuarioServlet.fabrica.getUsuarioDao();
         usuarioDao.borrar(id);
         response.sendRedirect("/IComerce/usuarios");
     }
 
     private void mostrarFormEditUsuario(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException, SQLException {
-        TecUsuarioDao userDao = ControladorEComerce.fabrica.getUsuarioDao();
+        TecUsuarioDao userDao = UsuarioServlet.fabrica.getUsuarioDao();
         int id = Integer.parseInt(request.getParameter("id"));
         TecUsuario user = userDao.buscar(id);
         request.setAttribute("user", user);
@@ -152,7 +152,7 @@ public class UsuarioServlet extends HttpServlet {
     private void actualizarUsuario(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException, SQLException {
         int id = Integer.parseInt(request.getParameter("id_cat"));
         
-        TecUsuarioDao userDao = ControladorEComerce.fabrica.getUsuarioDao();
+        TecUsuarioDao userDao = UsuarioServlet.fabrica.getUsuarioDao();
         TecUsuario user = userDao.buscar(id);
         
         user.setCliNombre(request.getParameter("nombre_usuario"));

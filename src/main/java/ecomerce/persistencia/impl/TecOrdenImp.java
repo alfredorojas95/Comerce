@@ -21,13 +21,14 @@ import java.util.logging.Logger;
  *
  * @author wilfr
  */
-public class TecOrdenImp implements TecOrdenDao{
+public class TecOrdenImp implements TecOrdenDao {
 
     private final Connection conn;
 
     public TecOrdenImp() {
         this.conn = MysqlDaoFactory.createConnection();
     }
+
     @Override
     public TecOrden buscar(String nombre) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -52,7 +53,7 @@ public class TecOrdenImp implements TecOrdenDao{
                 do {
                     orden = new TecOrden();
                     orden.setOrdId(rs.getInt("ord_id"));
-                    
+
                     int id = Integer.parseInt(rs.getString("cli_id"));
                     TecUsuarioImp usuImp = new TecUsuarioImp();
                     TecUsuario usu = usuImp.buscar(id);
@@ -90,7 +91,7 @@ public class TecOrdenImp implements TecOrdenDao{
                 do {
                     TecOrden orden = new TecOrden();
                     orden.setOrdId(rs.getInt("ord_id"));
-                    
+
                     int id = rs.getInt("cli_id");
                     TecUsuarioImp usuImp = new TecUsuarioImp();
                     TecUsuario usu = usuImp.buscar(id);
@@ -130,12 +131,32 @@ public class TecOrdenImp implements TecOrdenDao{
 
     @Override
     public boolean editar(TecOrden orden) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        boolean result = false;
+        String sql = "UPDATE tec_orden SET cli_id = ?, ord_fcreacion = ?, ord_num_confirmacion = ?, ord_precio_total = ?  WHERE ord_id = ?";
+        Logger.getLogger(TecOrdenImp.class.getName()).log(Level.SEVERE, "Categroai editar {0}", orden);
+
+        try {
+            PreparedStatement pstm = this.conn.prepareStatement(sql);
+            pstm.setInt(1, orden.getCli().getCliId());
+            pstm.setString(2, orden.getOrdFcreacion());
+            pstm.setInt(3, orden.getOrdFumConfirmacion());
+            pstm.setInt(4, orden.getOrdPrecioTotal());
+            pstm.setInt(5, orden.getOrdId());
+
+            int filasAfectadas = pstm.executeUpdate();
+            result = (filasAfectadas != 0);
+            Logger.getLogger(TecOrdenImp.class.getName()).log(Level.SEVERE, "Edita {0}", result);
+
+        } catch (SQLException ex) {
+            Logger.getLogger(TecOrdenImp.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return result;
     }
 
     @Override
     public boolean borrar(int id) {
-       
+
         boolean result = false;
         String sql = "DELETE FROM tec_orden WHERE ord_id = ?";
 
@@ -152,5 +173,5 @@ public class TecOrdenImp implements TecOrdenDao{
 
         return result;
     }
-    
+
 }

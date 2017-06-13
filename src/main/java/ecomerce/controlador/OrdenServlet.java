@@ -11,6 +11,7 @@ import ecomerce.persistencia.dao.TecOrdenDao;
 import ecomerce.persistencia.dao.TecUsuarioDao;
 import ecomerce.persistencia.factory.DAOFactory;
 import ecomerce.persistencia.factory.TipoBD;
+import ecomerce.persistencia.impl.TecUsuarioImp;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -31,8 +32,8 @@ public class OrdenServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        ControladorEComerce.fabrica = DAOFactory.getFactory(TipoBD.MYSQL, this.getServletContext());
-        TecUsuarioDao userDao = ControladorEComerce.fabrica.getUsuarioDao();
+        OrdenServlet.fabrica = DAOFactory.getFactory(TipoBD.MYSQL, this.getServletContext());
+        TecUsuarioDao userDao = OrdenServlet.fabrica.getUsuarioDao();
         this.listadoUsuario = userDao.listar();
     }
 
@@ -110,7 +111,7 @@ public class OrdenServlet extends HttpServlet {
     }// </editor-fold>
 
     private void listarOrdenes(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-        TecOrdenDao ordenDao = ControladorEComerce.fabrica.getOrdenDao();
+        TecOrdenDao ordenDao = OrdenServlet.fabrica.getOrdenDao();
         ArrayList<TecOrden> listadoOrden = ordenDao.listar();
         request.setAttribute("listadoOrden", listadoOrden);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/ordenes.jsp");
@@ -130,37 +131,66 @@ public class OrdenServlet extends HttpServlet {
         int idCcliente = Integer.parseInt(request.getParameter("cliente"));
 
         //error desborde de arreglo
-        TecUsuario usu = this.listadoUsuario.get(idCcliente);
+        TecUsuarioImp impUsu = new TecUsuarioImp();
+        TecUsuario usu = impUsu.buscar(idCcliente);
         System.out.println(usu.getCliNombre());
         orden.setCli(usu);
         orden.setOrdFumConfirmacion(Integer.parseInt(request.getParameter("num_confirmacion_orden")));
         orden.setOrdPrecioTotal(Integer.parseInt(request.getParameter("precio_orden")));
 
-        TecOrdenDao ordenDao = ControladorEComerce.fabrica.getOrdenDao();
+        TecOrdenDao ordenDao = OrdenServlet.fabrica.getOrdenDao();
         ordenDao.guardar(orden);
         response.sendRedirect("index.jsp");
     }
 
     private void borarOrden(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         int id = Integer.parseInt(request.getParameter("id"));
-        TecOrdenDao ordenDao = ControladorEComerce.fabrica.getOrdenDao();
+        TecOrdenDao ordenDao = OrdenServlet.fabrica.getOrdenDao();
         ordenDao.borrar(id);
         response.sendRedirect("/IComerce/ordenes");
 
     }
 
     private void mostrarFormEditar(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException, SQLException {
-        TecOrdenDao ordenDao = ControladorEComerce.fabrica.getOrdenDao();
+        TecOrdenDao ordenDao = OrdenServlet.fabrica.getOrdenDao();
         int id = Integer.parseInt(request.getParameter("id"));
         TecOrden orden = ordenDao.buscar(id);
         System.out.println(orden.getOrdFcreacion());
+        
+        //usuarios
+        TecUsuarioDao usuarioDao = OrdenServlet.fabrica.getUsuarioDao();
+        ArrayList<TecUsuario> listadoUsuarios = usuarioDao.listar();
+        
         request.setAttribute("orden", orden);
+        request.setAttribute("listadoUsuarios", listadoUsuarios);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/orden_form_edit.jsp");
         dispatcher.forward(request, response);
     }
 
-    private void actualizarOrden(HttpServletRequest request, HttpServletResponse response) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private void actualizarOrden(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{
+        
+        int idOrden = Integer.parseInt(request.getParameter("ord_id"));
+        String fechaCreacion = request.getParameter("fecha_creacion_orden");
+        int idCliente = Integer.parseInt(request.getParameter("cliente_orden"));
+        int numConfirmacion = Integer.parseInt(request.getParameter("num_confirmacion_orden"));
+        int precioTotal = Integer.parseInt(request.getParameter("precio_orden"));
+
+        //buscar orden
+        TecOrdenDao ordenDao = OrdenServlet.fabrica.getOrdenDao();
+        TecOrden orden = ordenDao.buscar(idOrden);
+        
+        //buscar cliente
+        TecUsuarioDao userDao = OrdenServlet.fabrica.getUsuarioDao();
+        TecUsuario user = userDao.buscar(idCliente);
+        
+        //set atributos
+        orden.setOrdFcreacion(fechaCreacion);
+        orden.setCli(user);
+        orden.setOrdFumConfirmacion(numConfirmacion);
+        orden.setOrdPrecioTotal(precioTotal);
+             
+        ordenDao.editar(orden);
+        response.sendRedirect("/IComerce/ordenes");
     }
 
 }

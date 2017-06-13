@@ -3,13 +3,13 @@
     
     <fieldset>
         <legend>Nuevo Producto</legend>
+        <input type="hidden" name="prod_id" value="${tecProducto.prodId}">
         Nombre:<br>
         <input type="text" name="nombre_producto" value="${tecProducto.proNombre}"><br><br>
         
-        Categoria:<br>
         <select name="categoria">
             <c:forEach var="i" items="${listadoCategoria}">
-                <option value="${tecProducto.cat.catId}" name="categoria_producto">${tecProducto.cat.catNombre}</option>
+                <option value="${i.catId}" name="categoria_producto">${i.catNombre}</option>
             </c:forEach>
             
         </select><br>

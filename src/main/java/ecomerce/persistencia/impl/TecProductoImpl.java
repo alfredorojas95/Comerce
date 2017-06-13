@@ -118,7 +118,7 @@ public class TecProductoImpl implements TecProductoDao {
         String sql = "INSERT INTO tec_producto(cat_id, pro_nombre, pro_descripcion, pro_precio, pro_ultima_actualizacion) values(?,?,?,?,?)";
         try {
             PreparedStatement pstm = this.conn.prepareStatement(sql);
-            pstm.setInt(1, prod.getid());
+            pstm.setInt(1, prod.getProdId());
             pstm.setString(2, prod.getProNombre());
             pstm.setString(3, prod.getProDescripcion());
             pstm.setInt(4, prod.getPrPrecio());
@@ -137,13 +137,17 @@ public class TecProductoImpl implements TecProductoDao {
     @Override
     public boolean editar(TecProducto prod) {
         boolean result = false;
-        String sql = "UPDATE tec_producto SET cat_nombre = ? WHERE cat_id = ?";
+        String sql = "UPDATE tec_producto SET cat_id = ?, pro_nombre = ?, pro_descripcion = ?, pro_precio = ?, pro_ultima_actualizacion = ?  WHERE prod_id = ?";
         Logger.getLogger(TecProductoImpl.class.getName()).log(Level.SEVERE, "Categroai editar {0}", prod);
 
         try {
             PreparedStatement pstm = this.conn.prepareStatement(sql);
-            pstm.setString(1, prod.getProNombre());
-            pstm.setInt(2, prod.getid());
+            pstm.setInt(1, prod.getCat().getCatId());
+            pstm.setString(2, prod.getProNombre());
+            pstm.setString(3, prod.getProDescripcion());
+            pstm.setInt(4, prod.getPrPrecio());
+            pstm.setString(5, prod.getProUltimaUctualizacion());
+            pstm.setInt(6, prod.getProdId());
 
             int filasAfectadas = pstm.executeUpdate();
             result = (filasAfectadas != 0);

@@ -3,13 +3,15 @@
     
     <fieldset>
         <legend>Nueva Orden</legend>
+        <input type="hidden" name="ord_id" value="${orden.ordId}"><br>
+        
         Fecha Creación:<br>
         <input type="date" name="fecha_creacion_orden" value="${orden.ordFcreacion}"><br><br>
         
         Cliente:<br>
         <select name="cliente">
-            <c:forEach var="i" items="${listadoUsuario}">
-                <option value="${orden.cli.cliNombre}" name="cliente_orden">${orden.cli.cliNombre}</option>
+            <c:forEach var="i" items="${listadoUsuarios}">
+                <option value="${i.cliId}" name="cliente_orden">${i.cliNombre}</option>
             </c:forEach>
             
         </select><br>

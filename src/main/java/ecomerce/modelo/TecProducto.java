@@ -56,18 +56,17 @@ public class TecProducto {
         this.proUltimaUctualizacion = proUltimaUctualizacion;
     }
 
-
-    public int getid() {
-        return cat.getCatId();
-    }
-    
-    public TecCategoria getCat(){
-        return this.cat;
+    public TecCategoria getCat() {
+        return cat;
     }
 
     public void setCat(TecCategoria cat) {
         this.cat = cat;
     }
+
+
+    
+
 
     public ArrayList<TecProductoTecOrden> getTecProductoTecOrden() {
         return tecProductoTecOrden;

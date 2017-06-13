@@ -33,8 +33,8 @@ public class ProductoServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
 
-        ControladorEComerce.fabrica = DAOFactory.getFactory(TipoBD.MYSQL, this.getServletContext());
-        TecCategoriaDao categoriaDao = ControladorEComerce.fabrica.getTecCategoriaDao();
+        ProductoServlet.fabrica = DAOFactory.getFactory(TipoBD.MYSQL, this.getServletContext());
+        TecCategoriaDao categoriaDao = ProductoServlet.fabrica.getTecCategoriaDao();
         this.listadoCategoria = categoriaDao.listar();
     }
 
@@ -89,9 +89,10 @@ public class ProductoServlet extends HttpServlet {
             switch (userPath) {
                 case "/guardarProducto":
                     this.guardarProducto(request, response);
-
                     break;
-
+                case "/actualizarFormProducto":
+                    this.actualizarProducto(request, response);
+                    break;
             }
         } catch (SQLException e) {
             throw new ServletException(e);
@@ -109,7 +110,7 @@ public class ProductoServlet extends HttpServlet {
     }// </editor-fold>
 
     private void listarProductos(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-        TecProductoDao productoaDao = ControladorEComerce.fabrica.getProductoDao();
+        TecProductoDao productoaDao = ProductoServlet.fabrica.getProductoDao();
         ArrayList<TecProducto> listadoProducto = productoaDao.listar();
         request.setAttribute("listadoProducto", listadoProducto);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/productos.jsp");
@@ -137,14 +138,14 @@ public class ProductoServlet extends HttpServlet {
         prod.setPrPrecio(Integer.parseInt(request.getParameter("precio_producto")));
         prod.setProUltimaUctualizacion(request.getParameter("fecha_mod_producto"));
 
-        TecProductoDao productoDao = ControladorEComerce.fabrica.getProductoDao();
+        TecProductoDao productoDao = ProductoServlet.fabrica.getProductoDao();
         productoDao.guardar(prod);
         response.sendRedirect("index.jsp");
     }
 
     private void eliminarProducto(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         int id = Integer.parseInt(request.getParameter("id"));
-        TecProductoDao productoDao = ControladorEComerce.fabrica.getProductoDao();
+        TecProductoDao productoDao = ProductoServlet.fabrica.getProductoDao();
         productoDao.borrar(id);
         response.sendRedirect("/IComerce/productos");
     }
@@ -152,15 +153,41 @@ public class ProductoServlet extends HttpServlet {
     private void editarProducto(HttpServletRequest request, HttpServletResponse response) throws
         ServletException, IOException , SQLException  {
         
-        TecProductoDao productoDao = ControladorEComerce.fabrica.getProductoDao();
+        TecProductoDao productoDao = ProductoServlet.fabrica.getProductoDao();
         int id = Integer.parseInt(request.getParameter("id"));
 
         //se busca la categotia del id obtenido
         TecProducto producto = productoDao.buscar(id);
 
         request.setAttribute("tecProducto", producto);
+        request.setAttribute("listadoCategoria", listadoCategoria);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/view/producto_form_edit.jsp");
         dispatcher.forward(request, response);
     }
 
+    private void actualizarProducto(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException, SQLException {
+        
+        int idProducto = Integer.parseInt(request.getParameter("prod_id"));
+        int categoria = Integer.parseInt(request.getParameter("categoria"));
+        String nombreProducto = request.getParameter("nombre_producto");
+        String descripcionProducto = request.getParameter("descripcion_producto");
+        int precioProducto = Integer.parseInt(request.getParameter("precio_producto"));
+        String fModProducto = request.getParameter("fecha_mod_producto");
+
+        TecProductoDao productoDao = ProductoServlet.fabrica.getProductoDao();
+        TecProducto prod = productoDao.buscar(idProducto);
+        TecCategoriaDao catDao = ProductoServlet.fabrica.getTecCategoriaDao();
+        TecCategoria cat = catDao.buscar(categoria);
+        prod.setCat(cat);
+        System.out.println("-------->new categoria "+cat.getCatId()+"  --   "+cat.getCatNombre());
+        prod.setProNombre(nombreProducto);
+        prod.setProDescripcion(descripcionProducto);
+        prod.setPrPrecio(precioProducto);
+        prod.setProUltimaUctualizacion(fModProducto);
+             
+        productoDao.editar(prod);
+        response.sendRedirect("/IComerce/productos");
+    }
+
+    
 }
