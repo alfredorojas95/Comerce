@@ -3,8 +3,6 @@
     
     <fieldset>
         <legend>Nueva Orden</legend>
-        Fecha Creación:<br>
-        <input type="date" name="fecha_creacion_orden" value=""><br><br>
         
         Cliente:<br>
         <select name="cliente">

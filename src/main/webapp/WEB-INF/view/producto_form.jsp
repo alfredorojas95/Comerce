@@ -19,10 +19,7 @@
         
         Precio:<br>
         <input type="number" name="precio_producto" value=""><br><br>
-        
-        Fecha última modificación<br>
-        <input type="date" name="fecha_mod_producto" value=""><br><br>
-        
+               
         <input type="submit" value="Cancelar">
         <input type="submit" value="Crear">
               

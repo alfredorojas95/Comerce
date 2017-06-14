@@ -21,7 +21,7 @@
         <input type="number" name="precio_producto" value="${tecProducto.prPrecio}"><br><br>
         
         Fecha última modificación<br>
-        <input type="date" name="fecha_mod_producto" value="${tecProducto.proUltimaUctualizacion}"><br><br>
+        <input type="date" name="fecha_mod_producto" value="${tecProducto.proUltimaUctualizacion}" disabled><br><br>
         
         <input type="submit" value="Cancelar">
         <input type="submit" value="Crear">

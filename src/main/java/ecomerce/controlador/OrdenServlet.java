@@ -14,7 +14,9 @@ import ecomerce.persistencia.factory.TipoBD;
 import ecomerce.persistencia.impl.TecUsuarioImp;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -127,12 +129,17 @@ public class OrdenServlet extends HttpServlet {
 
     private void guardarOrden(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         TecOrden orden = new TecOrden();
-        orden.setOrdFcreacion(request.getParameter("fecha_creacion_orden"));
+        
+        //obtener fecha
+        Date fecha = new Date();
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/YYYY");
+        String f = formato.format(fecha);
+        orden.setOrdFcreacion(f);
         int idCcliente = Integer.parseInt(request.getParameter("cliente"));
 
         //error desborde de arreglo
-        TecUsuarioImp impUsu = new TecUsuarioImp();
-        TecUsuario usu = impUsu.buscar(idCcliente);
+        TecUsuarioDao userDao = OrdenServlet.fabrica.getUsuarioDao();
+        TecUsuario usu = userDao.buscar(idCcliente);
         System.out.println(usu.getCliNombre());
         orden.setCli(usu);
         orden.setOrdFumConfirmacion(Integer.parseInt(request.getParameter("num_confirmacion_orden")));
@@ -170,7 +177,13 @@ public class OrdenServlet extends HttpServlet {
     private void actualizarOrden(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException{
         
         int idOrden = Integer.parseInt(request.getParameter("ord_id"));
-        String fechaCreacion = request.getParameter("fecha_creacion_orden");
+        
+        //obtener fecha
+        Date fecha = new Date();
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/YYYY");
+        String f = formato.format(fecha);
+        
+        //String fechaCreacion = request.getParameter("fecha_creacion_orden");
         int idCliente = Integer.parseInt(request.getParameter("cliente_orden"));
         int numConfirmacion = Integer.parseInt(request.getParameter("num_confirmacion_orden"));
         int precioTotal = Integer.parseInt(request.getParameter("precio_orden"));
@@ -184,7 +197,7 @@ public class OrdenServlet extends HttpServlet {
         TecUsuario user = userDao.buscar(idCliente);
         
         //set atributos
-        orden.setOrdFcreacion(fechaCreacion);
+        orden.setOrdFcreacion(f);
         orden.setCli(user);
         orden.setOrdFumConfirmacion(numConfirmacion);
         orden.setOrdPrecioTotal(precioTotal);

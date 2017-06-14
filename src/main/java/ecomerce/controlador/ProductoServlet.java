@@ -13,8 +13,13 @@ import ecomerce.persistencia.factory.DAOFactory;
 import ecomerce.persistencia.factory.TipoBD;
 import java.io.IOException;
 import java.io.PrintWriter;
+
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
+import java.util.Date;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -132,15 +137,23 @@ public class ProductoServlet extends HttpServlet {
         prod.setProNombre(request.getParameter("nombre_producto"));
         int categoria = Integer.parseInt(request.getParameter("categoria"));
         System.out.println("categoria " + categoria);
-        TecCategoria cat = this.listadoCategoria.get(categoria);
+        TecCategoriaDao catDao = ProductoServlet.fabrica.getTecCategoriaDao();
+        TecCategoria cat = catDao.buscar(categoria);
         prod.setCat(cat);
         prod.setProDescripcion(request.getParameter("descripcion_producto"));
         prod.setPrPrecio(Integer.parseInt(request.getParameter("precio_producto")));
-        prod.setProUltimaUctualizacion(request.getParameter("fecha_mod_producto"));
+        
+        //obtener fecha
+        Date fecha = new Date();
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/YYYY");
+        String f = formato.format(fecha);
+        prod.setProUltimaUctualizacion(f);
+        //prod.setProUltimaUctualizacion(request.getParameter("fecha_mod_producto"));
 
         TecProductoDao productoDao = ProductoServlet.fabrica.getProductoDao();
         productoDao.guardar(prod);
         response.sendRedirect("index.jsp");
+        
     }
 
     private void eliminarProducto(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
@@ -172,7 +185,7 @@ public class ProductoServlet extends HttpServlet {
         String nombreProducto = request.getParameter("nombre_producto");
         String descripcionProducto = request.getParameter("descripcion_producto");
         int precioProducto = Integer.parseInt(request.getParameter("precio_producto"));
-        String fModProducto = request.getParameter("fecha_mod_producto");
+        //String fModProducto = request.getParameter("fecha_mod_producto");
 
         TecProductoDao productoDao = ProductoServlet.fabrica.getProductoDao();
         TecProducto prod = productoDao.buscar(idProducto);
@@ -183,7 +196,12 @@ public class ProductoServlet extends HttpServlet {
         prod.setProNombre(nombreProducto);
         prod.setProDescripcion(descripcionProducto);
         prod.setPrPrecio(precioProducto);
-        prod.setProUltimaUctualizacion(fModProducto);
+        
+        //obtener fecha
+        Date fecha = new Date();
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/YYYY");
+        String f = formato.format(fecha);
+        prod.setProUltimaUctualizacion(f);
              
         productoDao.editar(prod);
         response.sendRedirect("/IComerce/productos");

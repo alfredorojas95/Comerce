@@ -118,7 +118,7 @@ public class TecProductoImpl implements TecProductoDao {
         String sql = "INSERT INTO tec_producto(cat_id, pro_nombre, pro_descripcion, pro_precio, pro_ultima_actualizacion) values(?,?,?,?,?)";
         try {
             PreparedStatement pstm = this.conn.prepareStatement(sql);
-            pstm.setInt(1, prod.getProdId());
+            pstm.setInt(1, prod.getCat().getCatId());
             pstm.setString(2, prod.getProNombre());
             pstm.setString(3, prod.getProDescripcion());
             pstm.setInt(4, prod.getPrPrecio());

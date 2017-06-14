@@ -6,7 +6,7 @@
         <input type="hidden" name="ord_id" value="${orden.ordId}"><br>
         
         Fecha Creación:<br>
-        <input type="date" name="fecha_creacion_orden" value="${orden.ordFcreacion}"><br><br>
+        <input type="date" name="fecha_creacion_orden" value="${orden.ordFcreacion}" disabled><br><br>
         
         Cliente:<br>
         <select name="cliente">
