@@ -1,5 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<form action="guardarOrden" method="post">
+<form action="actualizarOrden" method="post">
     
     <fieldset>
         <legend>Nueva Orden</legend>
@@ -23,7 +23,7 @@
         <input type="number" name="precio_orden" value="${orden.ordPrecioTotal}"><br><br>
         
         <input type="submit" value="Cancelar">
-        <input type="submit" value="Crear">
+        <input type="submit" value="Editar">
               
     </fieldset>
     

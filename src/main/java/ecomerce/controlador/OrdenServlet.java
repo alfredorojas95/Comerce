@@ -184,7 +184,7 @@ public class OrdenServlet extends HttpServlet {
         String f = formato.format(fecha);
         
         //String fechaCreacion = request.getParameter("fecha_creacion_orden");
-        int idCliente = Integer.parseInt(request.getParameter("cliente_orden"));
+        int idCliente = Integer.parseInt(request.getParameter("cliente"));
         int numConfirmacion = Integer.parseInt(request.getParameter("num_confirmacion_orden"));
         int precioTotal = Integer.parseInt(request.getParameter("precio_orden"));
 
